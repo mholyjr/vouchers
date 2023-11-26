@@ -1,0 +1,1 @@
+import{c as r}from"./index.0579b088.js";import{r as a,j as e}from"./app.293a78a2.js";const t=a.exports.forwardRef((s,o)=>e("input",{...s,ref:o,className:r("border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm",s.className)})),m=t;export{m as T};
