@@ -8,6 +8,7 @@ import { EditProductForm } from './Partials/EditProductForm';
 import ActionSection from '@/Components/ActionSection';
 import { RedeemOptionsForm } from './Partials/RedeemOptionsForm';
 import { InertiaFormProps } from '@inertiajs/react/types/useForm';
+import { ProductDescriptionForm } from './Partials/ProductDescriptionForm';
 
 type ProductProps = {
   title: string;
@@ -16,18 +17,13 @@ type ProductProps = {
   valid_for: number;
   valid_period: string;
   status: string;
+  short_description: string;
+  description: string;
   id?: number;
 };
 
 export type ProductFormProps = {
-  form: InertiaFormProps<{
-    title: string;
-    price: string;
-    num_of_redeems: number;
-    valid_for: number;
-    valid_period: string;
-    status: string;
-  }>;
+  form: InertiaFormProps<ProductProps>;
 };
 
 export default function Edit() {
@@ -46,6 +42,8 @@ export default function Edit() {
     valid_for: product.valid_for ?? 1,
     valid_period: product.valid_period ?? 'years',
     num_of_redeems: product.num_of_redeems ?? 1,
+    short_description: product.short_description ?? '',
+    description: product.description ?? '',
   });
 
   React.useEffect(() => {
@@ -116,6 +114,15 @@ export default function Edit() {
             description="Set up rules for redeeming the product"
           >
             <RedeemOptionsForm form={form} />
+          </ActionSection>
+
+          <Divider />
+
+          <ActionSection
+            title="Product description"
+            description="Write down description of your product"
+          >
+            <ProductDescriptionForm form={form} />
           </ActionSection>
 
           <Divider />
