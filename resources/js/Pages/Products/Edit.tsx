@@ -44,12 +44,12 @@ export default function Edit() {
   };
 
   const form = useForm({
-    title: product.title,
-    price: product.price.toString(),
-    status: product.status.toString(),
-    valid_for: product.valid_for,
-    valid_period: product.valid_period,
-    num_of_redeems: product.num_of_redeems
+    title: product.title ?? "",
+    price: product.price?.toString() ?? "",
+    status: product.status?.toString() ?? "1",
+    valid_for: product.valid_for ?? 1,
+    valid_period: product.valid_period ?? "years",
+    num_of_redeems: product.num_of_redeems ?? 1
   });
 
   React.useEffect(() => {
