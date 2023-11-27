@@ -11,7 +11,7 @@ class ProductController extends Controller
   public function list()
   {
     $user = auth()->user();
-    $products = $user->products; // Assuming a 'products' relationship exists in the User model
+    $products = $user->products;
 
     return Inertia::render('Products/List', ['products' => $products, 'user' => $user]);
   }
@@ -32,6 +32,9 @@ class ProductController extends Controller
     $data = $request->validate([
       'title' => 'required',
       'price' => 'required|numeric',
+      'num_of_redeems' => 'required|numeric',
+      'valid_for' => 'required|numeric',
+      'valid_period' => 'required'
     ]);
 
     $product->update($data);
@@ -44,7 +47,11 @@ class ProductController extends Controller
     $data = $request->validate([
       'title' => 'required',
       'price' => 'required|numeric',
+      'num_of_redeems' => 'required|numeric',
+      'valid_for' => 'required|numeric',
+      'valid_period' => 'required'
     ]);
+
     Product::create($data);
     $message = 'Product created successfully';
 

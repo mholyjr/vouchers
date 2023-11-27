@@ -19,6 +19,9 @@ class Product extends Model
         'title',
         'price',
         'status',
+        'valid_for',
+        'valid_period',
+        'num_of_redeems',
         'user_id'
     ];
 
