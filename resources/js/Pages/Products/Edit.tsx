@@ -1,9 +1,9 @@
-import { useForm, usePage } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import classNames from 'classnames';
 import React from 'react';
 import useRoute from '@/Hooks/useRoute';
 import AppLayout from '@/Layouts/AppLayout';
-import { Button, Card, Divider, Flex } from '@tremor/react';
+import { Button, Divider, Flex } from '@tremor/react';
 import { EditProductForm } from './Partials/EditProductForm';
 import ActionSection from '@/Components/ActionSection';
 import { RedeemOptionsForm } from './Partials/RedeemOptionsForm';
@@ -78,21 +78,26 @@ export default function Edit() {
   return (
     <form onSubmit={onSubmit}>
       <AppLayout
-        title="Create product"
+        title={product?.id ? 'Edit product' : 'Create new product'}
         renderHeader={() => (
           <Flex>
             <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-              Products
+              {product?.id ? 'Edit product' : 'Create new product'}
             </h2>
-            <Button
-              type="submit"
-              className={classNames('ml-4', {
-                'opacity-25': form.processing,
-              })}
-              disabled={form.processing}
-            >
-              {product?.id ? 'Save changes' : 'Create product'}
-            </Button>
+            <div>
+              <Link href={route('products.list')}>
+                <Button variant="light">Go back</Button>
+              </Link>
+              <Button
+                type="submit"
+                className={classNames('ml-4', {
+                  'opacity-25': form.processing,
+                })}
+                disabled={form.processing}
+              >
+                {product?.id ? 'Save changes' : 'Create product'}
+              </Button>
+            </div>
           </Flex>
         )}
       >
