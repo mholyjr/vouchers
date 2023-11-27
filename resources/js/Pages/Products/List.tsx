@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, useForm, usePage } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
 import {
   Table,
@@ -22,7 +22,9 @@ export default function List() {
 
   const products: any = props.products ?? [];
 
-  const [selectedProducts, setSelectedProducts] = React.useState(new Set());
+  const [selectedProducts, setSelectedProducts] = React.useState<Set<number>>(
+    new Set(),
+  );
 
   const handleCheckboxChange = (productId: number) => {
     setSelectedProducts(prevSelectedProducts => {
@@ -34,6 +36,14 @@ export default function List() {
       }
       return newSelectedProducts;
     });
+  };
+
+  const handleUnpublish = () => {
+    router.post(route('products.unpublish'), {
+      productIds: Array.from(selectedProducts),
+    });
+
+    setSelectedProducts(new Set());
   };
 
   return (
@@ -51,6 +61,7 @@ export default function List() {
               variant="secondary"
               className="mr-3"
               disabled={selectedProducts.size === 0}
+              onClick={handleUnpublish}
             >
               Unpublish
             </Button>

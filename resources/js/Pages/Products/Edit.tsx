@@ -1,11 +1,7 @@
-import { Link, useForm, Head, usePage } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import classNames from 'classnames';
 import React from 'react';
 import useRoute from '@/Hooks/useRoute';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import InputError from '@/Components/InputError';
 import AppLayout from '@/Layouts/AppLayout';
 import { Button, Card, Divider, Flex } from '@tremor/react';
 import { EditProductForm } from './Partials/EditProductForm';
@@ -44,12 +40,12 @@ export default function Edit() {
   };
 
   const form = useForm({
-    title: product.title ?? "",
-    price: product.price?.toString() ?? "",
-    status: product.status?.toString() ?? "1",
+    title: product.title ?? '',
+    price: product.price?.toString() ?? '',
+    status: product.status?.toString() ?? '1',
     valid_for: product.valid_for ?? 1,
-    valid_period: product.valid_period ?? "years",
-    num_of_redeems: product.num_of_redeems ?? 1
+    valid_period: product.valid_period ?? 'years',
+    num_of_redeems: product.num_of_redeems ?? 1,
   });
 
   React.useEffect(() => {
