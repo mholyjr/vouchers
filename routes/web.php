@@ -45,4 +45,7 @@ Route::middleware([
     Route::post('/products/edit', 'App\Http\Controllers\ProductController@store')->name('products.store');
 
     Route::post('/products/unpublish', 'App\Http\Controllers\ProductController@unpublish')->name('products.unpublish');
+
+    Route::post('/products/publish', 'App\Http\Controllers\ProductController@publish')->name('products.publish');
+
 });

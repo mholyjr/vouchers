@@ -46,6 +46,14 @@ export default function List() {
     setSelectedProducts(new Set());
   };
 
+  const handlePublish = () => {
+    router.post(route('products.publish'), {
+      productIds: Array.from(selectedProducts),
+    });
+
+    setSelectedProducts(new Set());
+  };
+
   return (
     <AppLayout
       title="Dashboard"
@@ -65,6 +73,15 @@ export default function List() {
             >
               Unpublish
             </Button>
+            <Button
+              variant="secondary"
+              className="mr-3"
+              disabled={selectedProducts.size === 0}
+              onClick={handlePublish}
+            >
+              Publish
+            </Button>
+
             <Link href={route('products.edit')}>
               <Button>Create new</Button>
             </Link>

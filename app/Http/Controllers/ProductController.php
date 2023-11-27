@@ -70,4 +70,17 @@ class ProductController extends Controller
 
     return redirect()->route('products.list')->with('success', 'Products unpublished successfully');
   }
+
+  public function publish(Request $request)
+  {
+    $data = $request->validate([
+      'productIds' => 'required|array',
+      'productIds.*' => 'exists:products,id',
+    ]);
+
+    Product::whereIn('id', $data['productIds'])
+      ->update(['status' => 1]);
+
+    return redirect()->route('products.list')->with('success', 'Products published successfully');
+  }
 }
