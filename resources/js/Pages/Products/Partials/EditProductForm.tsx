@@ -11,7 +11,6 @@ const publishedOptions = [
 ];
 
 export const EditProductForm: React.FC<ProductFormProps> = ({ form }) => {
-  console.log(form.data.title)
   return (
     <>
       <div>
