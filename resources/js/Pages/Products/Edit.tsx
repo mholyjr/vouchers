@@ -10,11 +10,28 @@ import AppLayout from '@/Layouts/AppLayout';
 import { Button, Card, Divider, Flex } from '@tremor/react';
 import { EditProductForm } from './Partials/EditProductForm';
 import ActionSection from '@/Components/ActionSection';
+import { RedeemOptionsForm } from './Partials/RedeemOptionsForm';
+import { InertiaFormProps } from '@inertiajs/react/types/useForm';
 
 type ProductProps = {
   title: string;
   price: string;
-  id?: string;
+  num_of_redeems: number;
+  valid_for: number;
+  valid_period: string;
+  status: string;
+  id?: number;
+};
+
+export type ProductFormProps = {
+  form: InertiaFormProps<{
+    title: string;
+    price: string;
+    num_of_redeems: number;
+    valid_for: number;
+    valid_period: string;
+    status: string;
+  }>;
 };
 
 export default function Edit() {
@@ -29,12 +46,20 @@ export default function Edit() {
   const form = useForm({
     title: product.title,
     price: product.price.toString(),
+    status: product.status.toString(),
+    valid_for: product.valid_for,
+    valid_period: product.valid_period,
+    num_of_redeems: product.num_of_redeems
   });
 
   React.useEffect(() => {
     if (product) {
       form.setData('title', product.title);
       form.setData('price', product.price);
+      form.setData('valid_for', product.valid_for);
+      form.setData('valid_period', product.valid_period);
+      form.setData('status', product.status);
+      form.setData('num_of_redeems', product.num_of_redeems);
     }
   }, [product?.id]);
 
@@ -89,7 +114,7 @@ export default function Edit() {
             title="Redeem settings"
             description="Set up rules for redeeming the product"
           >
-            <EditProductForm form={form} />
+            <RedeemOptionsForm form={form} />
           </ActionSection>
 
           <Divider />
@@ -97,9 +122,7 @@ export default function Edit() {
           <ActionSection
             title="Product images"
             description="Add images of your product"
-          >
-            <EditProductForm form={form} />
-          </ActionSection>
+          ></ActionSection>
         </div>
       </AppLayout>
     </form>

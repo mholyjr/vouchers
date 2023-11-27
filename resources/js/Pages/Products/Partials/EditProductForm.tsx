@@ -1,14 +1,17 @@
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
-import { InertiaFormProps } from '@inertiajs/react/types/useForm';
-import { NumberInput, TextInput } from '@tremor/react';
+import TextInput from '@/Components/TextInput';
 import React from 'react';
+import { ProductFormProps } from '../Edit';
+import { Select, SelectItem } from '@tremor/react';
 
-type EditProductFormProps = {
-  form: InertiaFormProps<{ title: string; price: string }>;
-};
+const publishedOptions = [
+  { value: '0', label: 'Unpublished' },
+  { value: '1', label: 'Published' },
+];
 
-export const EditProductForm: React.FC<EditProductFormProps> = ({ form }) => {
+export const EditProductForm: React.FC<ProductFormProps> = ({ form }) => {
+  console.log(form.data.title)
   return (
     <>
       <div>
@@ -26,10 +29,28 @@ export const EditProductForm: React.FC<EditProductFormProps> = ({ form }) => {
       </div>
 
       <div className="mt-4">
+        <InputLabel htmlFor="title">Published</InputLabel>
+        <Select
+          value={form.data.status as string}
+          onValueChange={value => form.setData('status', value)}
+          className=""
+        >
+          {publishedOptions.map(option => (
+            <SelectItem value={option.value} key={`published-${option.value}`}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
+
+        <InputError className="mt-2" message={form.errors.status} />
+      </div>
+
+      <div className="mt-4">
         <InputLabel htmlFor="price">Product Price</InputLabel>
-        <NumberInput
+        <TextInput
           id="price"
-          step="1"
+          type="number"
+          step="0.01"
           className="mt-1 block w-full"
           value={form.data.price}
           onChange={e => form.setData('price', e.currentTarget.value)}
