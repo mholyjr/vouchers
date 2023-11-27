@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, router, useForm, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
 import {
   Table,
@@ -54,6 +54,17 @@ export default function List() {
     setSelectedProducts(new Set());
   };
 
+  const handleSelectAllChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      const allProductIds = new Set<number>(
+        products.map((product: { id: number }) => product.id),
+      );
+      setSelectedProducts(allProductIds);
+    } else {
+      setSelectedProducts(new Set<number>());
+    }
+  };
+
   return (
     <AppLayout
       title="Dashboard"
@@ -95,7 +106,14 @@ export default function List() {
             <Table className="mt-5">
               <TableHead>
                 <TableRow>
-                  <TableHeaderCell>#</TableHeaderCell>
+                  <TableHeaderCell>
+                    <input
+                      type="checkbox"
+                      onChange={handleSelectAllChange}
+                      checked={selectedProducts.size === products.length}
+                      disabled={products.length === 0}
+                    />
+                  </TableHeaderCell>
                   <TableHeaderCell>Title</TableHeaderCell>
                   <TableHeaderCell>Price</TableHeaderCell>
                   <TableHeaderCell>Created</TableHeaderCell>
