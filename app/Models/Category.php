@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Product extends Model
+class Category extends Model
 {
   use HasFactory;
 
@@ -17,11 +17,9 @@ class Product extends Model
    */
   protected $fillable = [
     'title',
-    'price',
+    'description',
+    'description_short',
     'status',
-    'valid_for',
-    'valid_period',
-    'num_of_redeems',
     'user_id'
   ];
 
