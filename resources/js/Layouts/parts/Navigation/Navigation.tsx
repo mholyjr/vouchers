@@ -22,6 +22,11 @@ export const Navigation: React.FC = () => {
       title: 'Products',
       route: 'products.list',
     },
+    {
+      key: 'categories.list',
+      title: 'Categories',
+      route: 'categories.list',
+    },
   ];
 
   return (
