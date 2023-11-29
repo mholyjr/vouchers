@@ -53,7 +53,7 @@ class CategoryController extends Controller
     Category::create($data);
     $message = 'Product created successfully';
 
-    return redirect()->route('categories')->with('success', $message);
+    return redirect()->route('categories.list')->with('success', $message);
   }
 
   public function unpublish(Request $request)

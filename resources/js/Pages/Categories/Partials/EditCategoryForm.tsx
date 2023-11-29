@@ -10,11 +10,11 @@ const publishedOptions = [
   { value: '1', label: 'Published' },
 ];
 
-export const EditProductForm: React.FC<ProductFormProps> = ({ form }) => {
+export const EditCategoryForm: React.FC<ProductFormProps> = ({ form }) => {
   return (
     <>
       <div>
-        <InputLabel htmlFor="title">Product Title</InputLabel>
+        <InputLabel htmlFor="title">Category Title</InputLabel>
         <TextInput
           id="title"
           type="text"
@@ -42,20 +42,6 @@ export const EditProductForm: React.FC<ProductFormProps> = ({ form }) => {
         </Select>
 
         <InputError className="mt-2" message={form.errors.status} />
-      </div>
-
-      <div className="mt-4">
-        <InputLabel htmlFor="price">Product Price</InputLabel>
-        <TextInput
-          id="price"
-          type="number"
-          step="0.01"
-          className="mt-1 block w-full"
-          value={form.data.price}
-          onChange={e => form.setData('price', e.currentTarget.value)}
-          required
-        />
-        <InputError className="mt-2" message={form.errors.price} />
       </div>
     </>
   );
