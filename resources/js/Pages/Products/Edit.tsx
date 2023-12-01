@@ -20,6 +20,18 @@ type ProductProps = {
   short_description: string;
   description: string;
   id?: number;
+  category_id: number | string;
+};
+
+export type Category = {
+  id: number;
+  title: string;
+  description: string;
+  description_short: string;
+  status: number;
+  user_id: number;
+  created_at: string; // ISO 8601 date format
+  updated_at: string; // ISO 8601 date format
 };
 
 export type ProductFormProps = {
@@ -33,7 +45,10 @@ export default function Edit() {
     title: '',
     price: 0,
     id: '',
+    category_id: 0,
   };
+
+  const { categories } = props as any;
 
   const form = useForm({
     title: product.title ?? '',
@@ -44,6 +59,7 @@ export default function Edit() {
     num_of_redeems: product.num_of_redeems ?? 1,
     short_description: product.short_description ?? '',
     description: product.description ?? '',
+    category_id: product.category_id ?? '',
   });
 
   React.useEffect(() => {
@@ -54,6 +70,7 @@ export default function Edit() {
       form.setData('valid_period', product.valid_period);
       form.setData('status', product.status);
       form.setData('num_of_redeems', product.num_of_redeems);
+      form.setData('category_id', product.category_id);
     }
   }, [product?.id]);
 
@@ -104,7 +121,7 @@ export default function Edit() {
             title="Basic information"
             description="Add basic information about your product"
           >
-            <EditProductForm form={form} />
+            <EditProductForm form={form} categories={categories} />
           </ActionSection>
 
           <Divider />

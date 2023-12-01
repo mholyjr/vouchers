@@ -40,7 +40,7 @@ export default function List() {
 
   const handleUnpublish = () => {
     router.post(route('categories.unpublish'), {
-      productIds: Array.from(selectedCategories),
+      itemIds: Array.from(selectedCategories),
     });
 
     setSelectedCategories(new Set());
@@ -48,7 +48,7 @@ export default function List() {
 
   const handlePublish = () => {
     router.post(route('categories.publish'), {
-      productIds: Array.from(selectedCategories),
+      itemIds: Array.from(selectedCategories),
     });
 
     setSelectedCategories(new Set());
@@ -115,7 +115,6 @@ export default function List() {
                     />
                   </TableHeaderCell>
                   <TableHeaderCell>Title</TableHeaderCell>
-                  <TableHeaderCell>Price</TableHeaderCell>
                   <TableHeaderCell>Created</TableHeaderCell>
                   <TableHeaderCell>Status</TableHeaderCell>
                   <TableHeaderCell></TableHeaderCell>
@@ -132,7 +131,6 @@ export default function List() {
                       />
                     </TableCell>
                     <TableCell className="font-bold">{item.title}</TableCell>
-                    <TableCell>{item.price}</TableCell>
                     <TableCell>
                       <Text>{item.created_at}</Text>
                     </TableCell>

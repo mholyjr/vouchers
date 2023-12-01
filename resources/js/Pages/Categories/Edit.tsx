@@ -24,7 +24,7 @@ export type ProductFormProps = {
 export default function Edit() {
   const route = useRoute();
   const { props } = usePage();
-  const category = (props.cateogry as CategoryProps) || {
+  const category = (props.category as CategoryProps) || {
     title: '',
     price: 0,
     id: '',

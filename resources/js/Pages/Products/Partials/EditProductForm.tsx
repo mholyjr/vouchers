@@ -2,7 +2,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import React from 'react';
-import { ProductFormProps } from '../Edit';
+import { Category, ProductFormProps } from '../Edit';
 import { Select, SelectItem } from '@tremor/react';
 
 const publishedOptions = [
@@ -10,7 +10,10 @@ const publishedOptions = [
   { value: '1', label: 'Published' },
 ];
 
-export const EditProductForm: React.FC<ProductFormProps> = ({ form }) => {
+export const EditProductForm: React.FC<ProductFormProps & { categories: Category[] }> = ({
+  form,
+  categories,
+}) => {
   return (
     <>
       <div>
@@ -25,6 +28,23 @@ export const EditProductForm: React.FC<ProductFormProps> = ({ form }) => {
           autoFocus
         />
         <InputError className="mt-2" message={form.errors.title} />
+      </div>
+
+      <div className="mt-4">
+        <InputLabel htmlFor="category">Category</InputLabel>
+        <Select
+          id="category"
+          value={form.data.category_id?.toString() ?? ''}
+          onValueChange={value => form.setData('category_id', value)}
+        >
+          <SelectItem value="">Select a Category</SelectItem>
+          {categories.map(category => (
+            <SelectItem key={category.id} value={category.id.toString()}>
+              {category.title}
+            </SelectItem>
+          ))}
+        </Select>
+        <InputError className="mt-2" message={form.errors.category_id} />
       </div>
 
       <div className="mt-4">

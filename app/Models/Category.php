@@ -30,8 +30,8 @@ class Category extends Model
    */
   protected static function booted()
   {
-    static::creating(function ($product) {
-      $product->user_id = Auth::id();
+    static::creating(function ($category) {
+      $category->user_id = Auth::id();
     });
   }
 

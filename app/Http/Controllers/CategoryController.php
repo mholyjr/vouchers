@@ -59,11 +59,11 @@ class CategoryController extends Controller
   public function unpublish(Request $request)
   {
     $data = $request->validate([
-      'catIds' => 'required|array',
-      'catIds.*' => 'exists:categories,id',
+      'itemIds' => 'required|array',
+      'itemIds.*' => 'exists:categories,id',
     ]);
 
-    Category::whereIn('id', $data['productIds'])
+    Category::whereIn('id', $data['itemIds'])
       ->update(['status' => 0]);
 
     return redirect()->route('categories.list')->with('success', 'Products unpublished successfully');
@@ -72,11 +72,11 @@ class CategoryController extends Controller
   public function publish(Request $request)
   {
     $data = $request->validate([
-      'catIds' => 'required|array',
-      'catIds.*' => 'exists:categories,id',
+      'itemIds' => 'required|array',
+      'itemIds.*' => 'exists:categories,id',
     ]);
 
-    Category::whereIn('id', $data['catIds'])
+    Category::whereIn('id', $data['itemIds'])
       ->update(['status' => 1]);
 
     return redirect()->route('categories.list')->with('success', 'Products published successfully');

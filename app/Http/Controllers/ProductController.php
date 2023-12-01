@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,7 +12,8 @@ class ProductController extends Controller
   public function list()
   {
     $user = auth()->user();
-    $products = $user->products;
+
+    $products = $user->products()->with('category')->get();
 
     return Inertia::render('Products/List', ['products' => $products, 'user' => $user]);
   }
@@ -21,8 +23,9 @@ class ProductController extends Controller
     $product = null;
     if ($id) {
       $product = Product::findOrFail($id);
+      $categories = Category::all();
     }
-    return Inertia::render('Products/Edit', ['product' => $product]);
+    return Inertia::render('Products/Edit', ['product' => $product, 'categories' => $categories]);
   }
 
   public function update(Request $request, $id)
@@ -34,7 +37,8 @@ class ProductController extends Controller
       'price' => 'required|numeric',
       'num_of_redeems' => 'required|numeric',
       'valid_for' => 'required|numeric',
-      'valid_period' => 'required'
+      'valid_period' => 'required',
+      'category_id' => 'nullable|exists:categories,id',
     ]);
 
     $product->update($data);
@@ -49,7 +53,8 @@ class ProductController extends Controller
       'price' => 'required|numeric',
       'num_of_redeems' => 'required|numeric',
       'valid_for' => 'required|numeric',
-      'valid_period' => 'required'
+      'valid_period' => 'required',
+      'category_id' => 'nullable|exists:categories,id',
     ]);
 
     Product::create($data);
