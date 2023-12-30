@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -23,8 +24,9 @@ class ProductController extends Controller
     $product = null;
     if ($id) {
       $product = Product::findOrFail($id);
-      $categories = Category::all();
     }
+
+    $categories = Category::all();
     return Inertia::render('Products/Edit', ['product' => $product, 'categories' => $categories]);
   }
 
@@ -40,6 +42,25 @@ class ProductController extends Controller
       'valid_period' => 'required',
       'category_id' => 'nullable|exists:categories,id',
     ]);
+
+    $imageKit = App::make('imagekit');
+    $uploadFile = $request->file('image');
+
+    if (!empty($uploadFile)) {
+      try {
+        $response = $imageKit->upload([
+          'file' => fopen($uploadFile->getPathname(), 'r'),
+          'fileName' => $uploadFile->getClientOriginalName(),
+        ]);
+
+        if (isset($response->responseMetadata) && $response->responseMetadata['statusCode'] == 200) {
+          $data['image'] = $response->result->url;
+        }
+      } catch (\Exception $e) {
+        throw $e;
+      }
+    }
+
 
     $product->update($data);
 
@@ -57,10 +78,26 @@ class ProductController extends Controller
       'category_id' => 'nullable|exists:categories,id',
     ]);
 
+    $imageKit = App::make('imagekit');
+    $uploadFile = $request->file('image');
+
+    try {
+      $response = $imageKit->upload([
+        'file' => fopen($uploadFile->getPathname(), 'r'),
+        'fileName' => $uploadFile->getClientOriginalName(),
+      ]);
+
+      if (isset($response->responseMetadata) && $response->responseMetadata['statusCode'] == 200) {
+        $data['image'] = $response->result->url;
+      }
+    } catch (\Exception $e) {
+      throw $e;
+    }
+
     Product::create($data);
     $message = 'Product created successfully';
 
-    return redirect()->route('products')->with('success', $message);
+    return redirect()->route('products.list')->with('success', $message);
   }
 
   public function unpublish(Request $request)

@@ -23,7 +23,8 @@ class Product extends Model
     'valid_period',
     'num_of_redeems',
     'user_id',
-    'category_id'
+    'category_id',
+    'image'
   ];
 
   /**

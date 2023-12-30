@@ -9,6 +9,7 @@ import ActionSection from '@/Components/ActionSection';
 import { RedeemOptionsForm } from './Partials/RedeemOptionsForm';
 import { InertiaFormProps } from '@inertiajs/react/types/useForm';
 import { ProductDescriptionForm } from './Partials/ProductDescriptionForm';
+import { ProductImagesForm } from './Partials/ProductImagesForm';
 
 type ProductProps = {
   title: string;
@@ -21,6 +22,7 @@ type ProductProps = {
   description: string;
   id?: number;
   category_id: number | string;
+  image: string | null | File;
 };
 
 export type Category = {
@@ -60,6 +62,7 @@ export default function Edit() {
     short_description: product.short_description ?? '',
     description: product.description ?? '',
     category_id: product.category_id ?? '',
+    image: product.image ?? null,
   });
 
   React.useEffect(() => {
@@ -71,6 +74,7 @@ export default function Edit() {
       form.setData('status', product.status);
       form.setData('num_of_redeems', product.num_of_redeems);
       form.setData('category_id', product.category_id);
+      form.setData('image', product.image)
     }
   }, [product?.id]);
 
@@ -78,9 +82,10 @@ export default function Edit() {
     e.preventDefault();
 
     if (product?.id) {
-      form.put(route('products.update', { id: product.id }), {
+      form.post(route('products.update', { id: product.id }), {
         preserveScroll: true,
         onSuccess: () => alert('Product updated successfully'),
+        onError: err => console.log(err),
       });
     } else {
       form.post(route('products.store'), {
@@ -91,7 +96,7 @@ export default function Edit() {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} encType="multipart/form-data">
       <AppLayout
         title={product?.id ? 'Edit product' : 'Create new product'}
         renderHeader={() => (
@@ -147,7 +152,9 @@ export default function Edit() {
           <ActionSection
             title="Product images"
             description="Add images of your product"
-          ></ActionSection>
+          >
+            <ProductImagesForm form={form} />
+          </ActionSection>
         </div>
       </AppLayout>
     </form>
