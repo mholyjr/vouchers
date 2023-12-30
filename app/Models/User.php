@@ -68,4 +68,13 @@ class User extends Authenticatable
   {
     return $this->hasMany(Category::class);
   }
+
+  protected static function boot()
+  {
+    parent::boot();
+
+    static::creating(function ($user) {
+      $user->hash = md5($user->email . $user->id);
+    });
+  }
 }
