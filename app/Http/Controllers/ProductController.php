@@ -43,6 +43,25 @@ class ProductController extends Controller
       'category_id' => 'nullable|exists:categories,id',
     ]);
 
+    $imageKit = App::make('imagekit');
+    $uploadFile = $request->file('image');
+
+    if (!empty($uploadFile)) {
+      try {
+        $response = $imageKit->upload([
+          'file' => fopen($uploadFile->getPathname(), 'r'),
+          'fileName' => $uploadFile->getClientOriginalName(),
+        ]);
+
+        if (isset($response->responseMetadata) && $response->responseMetadata['statusCode'] == 200) {
+          $data['image'] = $response->result->url;
+        }
+      } catch (\Exception $e) {
+        throw $e;
+      }
+    }
+
+
     $product->update($data);
 
     return redirect()->route('products.list')->with('success', 'Product updated successfully');
@@ -60,7 +79,6 @@ class ProductController extends Controller
     ]);
 
     $imageKit = App::make('imagekit');
-
     $uploadFile = $request->file('image');
 
     try {

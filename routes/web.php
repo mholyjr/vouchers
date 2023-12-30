@@ -41,7 +41,7 @@ Route::middleware([
     'App\Http\Controllers\ProductController@edit'
   )->name('products.edit');
 
-  Route::put('/products/edit/{id}', 'App\Http\Controllers\ProductController@update')->name('products.update');
+  Route::post('/products/edit/{id}', 'App\Http\Controllers\ProductController@update')->name('products.update');
 
   Route::post('/products/edit', 'App\Http\Controllers\ProductController@store')->name('products.store');
 
