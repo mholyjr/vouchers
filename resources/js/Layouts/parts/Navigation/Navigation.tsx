@@ -27,6 +27,11 @@ export const Navigation: React.FC = () => {
       title: 'Categories',
       route: 'categories.list',
     },
+    {
+      key: 'settings',
+      title: 'Settings',
+      route: 'settings',
+    },
   ];
 
   return (

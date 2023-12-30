@@ -64,4 +64,10 @@ Route::middleware([
   Route::post('/categories/unpublish', 'App\Http\Controllers\CategoryController@unpublish')->name('categories.unpublish');
 
   Route::post('/categories/publish', 'App\Http\Controllers\CategoryController@publish')->name('categories.publish');
+
+  // Settings
+  Route::get('/settings', function () {
+    return Inertia::render('Settings/Settings');
+  })->name('settings');
+
 });
