@@ -9,6 +9,7 @@ import ActionSection from '@/Components/ActionSection';
 import { RedeemOptionsForm } from './Partials/RedeemOptionsForm';
 import { InertiaFormProps } from '@inertiajs/react/types/useForm';
 import { ProductDescriptionForm } from './Partials/ProductDescriptionForm';
+import { ProductImagesForm } from './Partials/ProductImagesForm';
 
 type ProductProps = {
   title: string;
@@ -21,6 +22,7 @@ type ProductProps = {
   description: string;
   id?: number;
   category_id: number | string;
+  image: string | null | File;
 };
 
 export type Category = {
@@ -60,6 +62,7 @@ export default function Edit() {
     short_description: product.short_description ?? '',
     description: product.description ?? '',
     category_id: product.category_id ?? '',
+    image: product.image ?? null,
   });
 
   React.useEffect(() => {
@@ -147,7 +150,9 @@ export default function Edit() {
           <ActionSection
             title="Product images"
             description="Add images of your product"
-          ></ActionSection>
+          >
+            <ProductImagesForm form={form} />
+          </ActionSection>
         </div>
       </AppLayout>
     </form>

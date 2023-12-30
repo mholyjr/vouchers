@@ -10,10 +10,9 @@ const publishedOptions = [
   { value: '1', label: 'Published' },
 ];
 
-export const EditProductForm: React.FC<ProductFormProps & { categories: Category[] }> = ({
-  form,
-  categories,
-}) => {
+export const EditProductForm: React.FC<
+  ProductFormProps & { categories: Category[] }
+> = ({ form, categories }) => {
   return (
     <>
       <div>

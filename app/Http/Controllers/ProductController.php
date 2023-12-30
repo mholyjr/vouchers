@@ -25,7 +25,7 @@ class ProductController extends Controller
     if ($id) {
       $product = Product::findOrFail($id);
     }
-    
+
     $categories = Category::all();
     return Inertia::render('Products/Edit', ['product' => $product, 'categories' => $categories]);
   }
@@ -62,19 +62,24 @@ class ProductController extends Controller
     $imageKit = App::make('imagekit');
 
     $uploadFile = $request->file('image');
-    $response = $imageKit->upload([
-      'file' => fopen($uploadFile->getPathname(), 'r'),
-      'fileName' => $uploadFile->getClientOriginalName(),
-    ]);
 
-    if ($response->success) {
-      $data['image'] = json_encode(['intro_image' => $response->url]);
+    try {
+      $response = $imageKit->upload([
+        'file' => fopen($uploadFile->getPathname(), 'r'),
+        'fileName' => $uploadFile->getClientOriginalName(),
+      ]);
+
+      if (isset($response->responseMetadata) && $response->responseMetadata['statusCode'] == 200) {
+        $data['image'] = $response->result->url;
+      }
+    } catch (\Exception $e) {
+      throw $e;
     }
 
     Product::create($data);
     $message = 'Product created successfully';
 
-    return redirect()->route('products')->with('success', $message);
+    return redirect()->route('products.list')->with('success', $message);
   }
 
   public function unpublish(Request $request)
