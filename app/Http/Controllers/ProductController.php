@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -23,8 +24,9 @@ class ProductController extends Controller
     $product = null;
     if ($id) {
       $product = Product::findOrFail($id);
-      $categories = Category::all();
     }
+    
+    $categories = Category::all();
     return Inertia::render('Products/Edit', ['product' => $product, 'categories' => $categories]);
   }
 
@@ -56,6 +58,18 @@ class ProductController extends Controller
       'valid_period' => 'required',
       'category_id' => 'nullable|exists:categories,id',
     ]);
+
+    $imageKit = App::make('imagekit');
+
+    $uploadFile = $request->file('image');
+    $response = $imageKit->upload([
+      'file' => fopen($uploadFile->getPathname(), 'r'),
+      'fileName' => $uploadFile->getClientOriginalName(),
+    ]);
+
+    if ($response->success) {
+      $data['image'] = json_encode(['intro_image' => $response->url]);
+    }
 
     Product::create($data);
     $message = 'Product created successfully';
